@@ -11,11 +11,11 @@ export const login = async (username, password, dispatch) => {
         });
         if (!res.ok) {
             dispatch({type: LOGIN_FAIL});
-            return;
+            return null;
         }
         const token = await res.json();
         dispatch({type: LOGIN_SUCCESS, payload: {token}})
     } catch (e) {
-        dispatch({type: LOGIN_FAIL})
+        dispatch({type: LOGIN_FAIL});
     }
 };
