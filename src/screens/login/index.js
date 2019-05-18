@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState, Fragment} from 'react';
 import TextField from "@material-ui/core/TextField";
 import Button from '@material-ui/core/Button';
 import {login} from "./actions";
@@ -9,7 +9,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import LockOutlined from '@material-ui/icons/LockOutlined'
-import CircularProgress from "@material-ui/core/CircularProgress";
+import {Redirect} from "react-router-dom";
 
 const useStyles = makeStyles({
     paper: {
@@ -51,7 +51,7 @@ const Login = ({dispatch, auth}) => {
         }
     };
     return (
-        auth.token === null
+        !auth.isAuthed
             ?
             <Fragment>
                 <Grid
@@ -95,13 +95,13 @@ const Login = ({dispatch, auth}) => {
                             </Button>
                         </Grid>
                         {
-                            auth.error ? <p className={classes.error}>{'Invalid login, please try again'}</p> : null
+                            !auth.error && auth.error !== null ? <p className={classes.error}>{'Invalid login, please try again'}</p> : null
                         }
                     </Paper>
                 </Grid>
             </Fragment>
             :
-            <p>{'You are already logged in'}</p>
+            <Redirect to={'/home'}/>
     )
 };
 const mapStateToProps = (state) => ({

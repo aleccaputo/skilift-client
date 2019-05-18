@@ -14,8 +14,12 @@ export const login = async (username, password, dispatch) => {
             return null;
         }
         const token = await res.json();
-        dispatch({type: LOGIN_SUCCESS, payload: {token}})
+        window.localStorage.setItem('token', token.token.toString());
+        dispatch({type: LOGIN_SUCCESS, payload: {isAuthed: true, error: false}});
+        return true;
     } catch (e) {
-        dispatch({type: LOGIN_FAIL});
+        localStorage.setItem('token', '');
+        dispatch({type: LOGIN_FAIL, payload: {isAuthed: true, error: true}});
+        return false;
     }
 };
